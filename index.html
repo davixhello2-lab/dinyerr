@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speed Clicker – Clique, evolua, corra mais rápido que todo mundo</title>
+<meta name="description" content="Jogo clicker de velocidade no Roblox. Compre melhorias, desbloqueie 25 níveis e vire o mais rápido do servidor. Jogue grátis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#DDEBFF; --ink:#13233F; --fire:#FF4D2E; --sun:#FFC83D; --white:#fff; --mid:#4A5B78;
+  --head:'Bricolage Grotesque','Arial Black',system-ui,sans-serif;
+  --body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--sky);color:var(--ink);line-height:1.6;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-family:var(--head);font-weight:800;font-size:1.35rem;text-decoration:none;letter-spacing:-.02em}
+.btn{display:inline-block;background:var(--fire);color:var(--white);font-family:var(--head);font-weight:800;font-size:1.1rem;padding:14px 28px;border-radius:14px;text-decoration:none;border:0;cursor:pointer;box-shadow:0 5px 0 #B52F16;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #B52F16}
+.btn.small{padding:9px 18px;font-size:.95rem;box-shadow:0 3px 0 #B52F16}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:36px 0 70px}
+h1{font-family:var(--head);font-weight:800;font-size:clamp(2.6rem,7vw,5rem);line-height:.98;letter-spacing:-.035em}
+.hero p{font-size:1.2rem;color:var(--mid);margin:20px 0 28px;max-width:30ch}
+.hero .sub{font-size:.95rem;margin-top:14px;color:var(--mid)}
+
+/* demo clicável */
+.demo{background:var(--ink);color:var(--white);border-radius:26px;padding:26px;position:relative;overflow:hidden;transform:rotate(2deg)}
+.demo h2{font-family:var(--head);font-size:1rem;font-weight:500;color:#9FB4D9}
+.speed{font-family:var(--head);font-weight:800;font-size:4.2rem;line-height:1;letter-spacing:-.03em;margin:6px 0 2px}
+.speed small{font-size:1.1rem;font-weight:500;color:#9FB4D9;margin-left:6px}
+.track{height:14px;background:#24375C;border-radius:99px;overflow:hidden;margin:16px 0 6px}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--sun),var(--fire));border-radius:99px;transition:width .12s}
+.hint{font-size:.9rem;color:#9FB4D9;min-height:1.4em}
+.tap{width:100%;margin-top:16px;padding:20px;font-size:1.5rem}
+.pop{position:absolute;font-family:var(--head);font-weight:800;color:var(--sun);pointer-events:none;animation:pop .7s ease-out forwards}
+@keyframes pop{to{transform:translateY(-70px);opacity:0}}
+
+/* sections */
+section{padding:64px 0}
+h2.title{font-family:var(--head);font-weight:800;font-size:clamp(1.9rem,4.5vw,3rem);letter-spacing:-.03em;line-height:1.05;margin-bottom:34px;max-width:18ch}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;background:var(--white);border-radius:20px;padding:26px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--sun);font-family:var(--head);font-weight:800;margin-bottom:14px}
+.steps b{font-family:var(--head);font-size:1.25rem;display:block;margin-bottom:6px}
+.steps span{color:var(--mid)}
+
+.band{background:var(--ink);color:var(--white);border-radius:30px;padding:48px 36px;display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.band h2{font-family:var(--head);font-weight:800;font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.03em;line-height:1.05}
+.band p{color:#BFD0EE}
+.band ul{list-style:none;display:grid;gap:12px}
+.band li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #2C4270;padding-bottom:10px}
+.band li strong{color:var(--sun);font-family:var(--head)}
+
+.cta{text-align:center;padding:80px 0 60px}
+.cta h2{font-family:var(--head);font-weight:800;font-size:clamp(2.2rem,6vw,4rem);letter-spacing:-.035em;line-height:1;margin-bottom:26px}
+footer{text-align:center;color:var(--mid);font-size:.85rem;padding:0 0 40px}
+
+@media(max-width:800px){
+  .hero,.band{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .demo{transform:none}
+  .hero p{max-width:none}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pop{animation:none;opacity:0}
+  .fill,.btn{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#">Speed Clicker</a>
+    <a class="btn small" href="#jogar" data-play>Jogar grátis</a>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <h1>Clique mais. Corra mais rápido que todo mundo.</h1>
+      <p>Cada clique te deixa mais veloz. Compre melhorias e vire o jogador mais rápido do servidor.</p>
+      <a class="btn" href="#jogar" data-play>Jogar agora no Roblox</a>
+      <div class="sub">Grátis. Sem instalar nada além do Roblox.</div>
+    </div>
+
+    <div class="demo" id="demo">
+      <h2>Teste aqui, é o jogo em miniatura</h2>
+      <div class="speed"><span id="spd">16</span><small>de velocidade</small></div>
+      <div class="track" aria-hidden="true"><div class="fill" id="fill"></div></div>
+      <div class="hint" id="hint" aria-live="polite">Aperte o botão e veja sua velocidade subir.</div>
+      <button class="btn tap" id="tap" type="button">CLICAR!</button>
+    </div>
+  </header>
+
+  <section aria-labelledby="como">
+    <h2 class="title" id="como">Aprenda em 10 segundos</h2>
+    <ol class="steps">
+      <li><b>Clique</b><span>Cada clique rende pontos e te deixa mais rápido.</span></li>
+      <li><b>Compre melhorias</b><span>Gaste seus pontos na loja e suba de nível.</span></li>
+      <li><b>Domine o servidor</b><span>Passe os outros jogadores e mostre quem manda.</span></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="loja">
+    <div class="band">
+      <div>
+        <h2 id="loja">Uma loja cheia de melhorias</h2>
+        <p style="margin-top:14px">Mais de 25 níveis de velocidade para desbloquear, além de itens especiais para quem quer apoiar o jogo.</p>
+      </div>
+      <ul>
+        <li><span>Melhorias de velocidade</span><strong>25 níveis</strong></li>
+        <li><span>Redução de espera</span><strong>10 níveis</strong></li>
+        <li><span>Itens especiais</span><strong>Explosão, mola, RPG</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta" id="jogar">
+    <h2>Pronto para ser o mais rápido?</h2>
+    <a class="btn" href="#" data-play>Jogar Speed Clicker</a>
+  </section>
+
+  <footer>&copy; 2026 Speed Clicker. Não afiliado à Roblox Corporation.</footer>
+</div>
+
+<script>
+// >>> TROQUE AQUI pelo link do seu jogo no Roblox <<<
+var PLAY_LINK = "https://www.roblox.com/games/";
+document.querySelectorAll('[data-play]').forEach(function(a){
+  if(a.getAttribute('href')==='#'||a.getAttribute('href')==='#jogar'){
+    if(a.closest('.cta')||a.classList.contains('small')||a.closest('.hero')){a.href=PLAY_LINK;}
+  }
+});
+
+var clicks=0, goal=60;
+var spd=document.getElementById('spd'), fill=document.getElementById('fill'),
+    hint=document.getElementById('hint'), demo=document.getElementById('demo');
+var msgs={10:'Aquecendo...',25:'Agora sim, tá voando!',45:'Quase na próxima melhoria!',60:'Melhoria desbloqueada! No jogo tem 25 dessas.'};
+document.getElementById('tap').addEventListener('click',function(e){
+  clicks++;
+  spd.textContent=16+Math.floor(clicks/3)*2;
+  fill.style.width=Math.min(100,clicks/goal*100)+'%';
+  if(msgs[clicks]) hint.textContent=msgs[clicks];
+  if(clicks>=goal){clicks=0;}
+  try{
+    var p=document.createElement('span');p.className='pop';p.textContent='+1';
+    var r=demo.getBoundingClientRect();
+    p.style.left=(e.clientX-r.left-8)+'px';p.style.top=(e.clientY-r.top-20)+'px';
+    demo.appendChild(p);setTimeout(function(){p.remove()},700);
+  }catch(err){}
+});
+</script>
+</body>
+</html>
